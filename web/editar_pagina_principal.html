@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, proxy-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>Editar Página Principal - Admin</title>
+  <style>
+    :root{
+      --gold:#cba97f;
+      --gold-dark:#7a3e37;
+      --cream:#f6f1eb;
+      --ink:#070404;
+      --muted:#6b7280;
+      --border:#e5e7eb;
+      --surface:#ffffff;
+      --shadow:0 20px 45px rgba(47,7,12,.12);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:linear-gradient(135deg,#f8f5eb 0%,#f4efe3 100%);color:var(--ink);padding:24px}
+    .container{max-width:1100px;margin:0 auto;background:var(--surface);padding:28px;border-radius:20px;box-shadow:var(--shadow);border:1px solid rgba(203,169,127,.2)}
+    .hero-bar{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:24px;padding:18px 20px;border-radius:16px;background:linear-gradient(90deg,var(--cream),#fff);border:1px solid rgba(203,169,127,.3)}
+    h1{font-size:26px;margin:0 0 6px;color:#2f070c}
+    .small{font-size:14px;color:var(--muted);line-height:1.6;margin:0;max-width:720px}
+    .badge{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:var(--gold);color:#fff;font-weight:700;font-size:13px;white-space:nowrap}
+    .row{display:flex;gap:16px;flex-wrap:wrap}
+    .col{flex:1 1 260px}
+    .card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:0 10px 25px rgba(15,23,42,.04)}
+    .section{margin-bottom:18px}
+    h2{font-size:17px;margin:8px 0 12px;color:#5a1920}
+    label{display:block;font-weight:700;margin-bottom:6px;color:#374151;font-size:14px}
+    input[type=file]{display:block;width:100%;padding:10px;border:1px dashed var(--gold);border-radius:10px;background:#fffdf8}
+    img.preview{width:100%;height:140px;object-fit:cover;border-radius:12px;border:1px solid var(--border);background:#f7f7f7}
+    textarea,input[type=text]{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--border);font-size:14px;background:#fcfcfd}
+    textarea{min-height:90px;resize:vertical}
+    button{background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:#fff;padding:10px 14px;border:none;border-radius:999px;cursor:pointer;font-weight:700;box-shadow:0 8px 18px rgba(122,62,55,.22);transition:transform .2s ease, box-shadow .2s ease}
+    button:hover{transform:translateY(-1px);box-shadow:0 10px 22px rgba(122,62,55,.28)}
+    button.secondary{background:#fff;border:1px solid var(--border);color:var(--ink);box-shadow:none}
+    button.danger{background:#dc2626;box-shadow:none}
+    .actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:10px}
+    .status-pill{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:#f3f4f6;color:#374151;font-size:14px}
+    .muted{color:var(--muted);font-size:13px}
+    @media (max-width:768px){body{padding:12px}.container{padding:18px}.hero-bar{flex-direction:column}.badge{align-self:flex-start}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="hero-bar">
+      <div>
+        <h1>Editar Página Principal</h1>
+        <p class="small">Personaliza el contenido visual del sitio, reemplaza imágenes y ajusta textos desde un panel moderno y fácil de usar.</p>
+      </div>
+      <div class="badge">✨ Panel de administración</div>
+    </div>
+
+    <div id="editor">
+      <div class="section card">
+        <h2>Logo</h2>
+        <div class="row">
+          <div class="col">
+            <label>Vista previa</label>
+            <img id="logoPreview" class="preview" src="" alt="logo">
+            <div class="actions"><button id="deleteLogo" class="danger" type="button">Eliminar imagen</button></div>
+          </div>
+          <div class="col">
+            <label>Reemplazar logo (PNG/JPG)</label>
+            <input id="logoInput" type="file" accept="image/*">
+            <p class="muted" style="margin-top:8px">Se recomienda una imagen cuadrada para un mejor resultado visual.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section card">
+        <h2>Imagen Hero (Portada)</h2>
+        <div class="row">
+          <div class="col">
+            <label>Vista previa</label>
+            <img id="heroPreview" class="preview" src="" alt="hero">
+            <div class="actions"><button id="deleteHero" class="danger" type="button">Eliminar imagen</button></div>
+          </div>
+          <div class="col">
+            <label>Reemplazar imagen</label>
+            <input id="heroInput" type="file" accept="image/*">
+          </div>
+        </div>
+      </div>
+
+      <div class="section card">
+        <h2>Imagen “Acerca de”</h2>
+        <div class="row">
+          <div class="col">
+            <label>Vista previa</label>
+            <img id="aboutPreview" class="preview" src="" alt="about">
+            <div class="actions"><button id="deleteAbout" class="danger" type="button">Eliminar imagen</button></div>
+          </div>
+          <div class="col">
+            <label>Reemplazar imagen</label>
+            <input id="aboutInput" type="file" accept="image/*">
+          </div>
+        </div>
+      </div>
+
+      <div class="section card">
+        <h2>Habitaciones</h2>
+        <div id="rooms"></div>
+        <div class="actions"><button id="addRoomBtn" type="button">➕ Agregar habitación</button></div>
+      </div>
+
+      <div class="section card">
+        <h2>Galería</h2>
+        <div id="gallery"></div>
+        <div class="actions"><button id="addGalleryBtn" type="button">➕ Agregar imagen a galería</button></div>
+      </div>
+
+      <div class="section card">
+        <div class="actions">
+          <button id="generate" type="button">Guardar cambios</button>
+          <span id="status" class="status-pill">Listo para actualizar</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { firebaseConfig } from '../config.js';
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js';
+    import { getFirestore, doc as docRef, setDoc, getDoc, collection, getDocs, orderBy, query } from 'https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js';
+
+    const appFirebase = initializeApp(firebaseConfig);
+    const db = getFirestore(appFirebase);
+
+    const CHUNK_SIZE = 200000; // chunk size used for storing large Base64 image payloads in Firestore
+    const LOCAL_HTML_KEY = 'velvetroom_template_html';
+    const LOCAL_UPDATED_KEY = 'velvetroom_template_updated';
+    const state = {
+      docText: null,
+      parser: new DOMParser(),
+      serializer: new XMLSerializer(),
+      replacements: {},
+      deletions: {},
+      uploadedImages: new Map()
+    };
+
+    function saveToLocalStorage(html){
+      try{
+        const compact = html.length > 1200000 ? html.replace(/src="data:image[^\"]+"/gi, 'src=""') : html;
+        localStorage.setItem(LOCAL_HTML_KEY, compact);
+        localStorage.setItem(LOCAL_UPDATED_KEY, new Date().toISOString());
+      }catch(err){
+        console.warn('No se pudo guardar HTML en localStorage:', err);
+      }
+    }
+
+    function loadFromLocalStorage(){
+      return localStorage.getItem(LOCAL_HTML_KEY);
+    }
+
+    async function resolveFirebaseImagePlaceholders(html){
+      const regex = /FIREBASE_IMG::([a-zA-Z0-9_\-]+)/g;
+      const ids = new Set();
+      let match;
+      while((match = regex.exec(html)) !== null){ ids.add(match[1]); }
+      if(!ids.size) return html;
+      for(const id of ids){
+        const metaSnap = await getDoc(docRef(db,'images',id));
+        if(!metaSnap.exists()) continue;
+        const header = (metaSnap.data().header || 'data:image/jpeg;base64,');
+        const chunksSnap = await getDocs(query(collection(docRef(db,'images',id),'chunks'), orderBy('index')));
+        const parts = [];
+        chunksSnap.forEach(chunkDoc => { const data = chunkDoc.data().data; if(typeof data === 'string') parts.push(data); });
+        html = html.split('FIREBASE_IMG::'+id).join(header + parts.join(''));
+      }
+      return html;
+    }
+
+    async function loadIndex(){
+      const res = await fetch('index.html?ts=' + Date.now(), { cache: 'no-store' });
+      const text = await res.text();
+      state.docText = text;
+      const doc = state.parser.parseFromString(text, 'text/html');
+
+      // logo
+      const logoImg = doc.querySelector('img.logo');
+      const logoSrc = logoImg ? logoImg.getAttribute('src') : '';
+      document.getElementById('logoPreview').src = logoSrc;
+
+      // hero
+      const heroImg = doc.querySelector('.hero-image img');
+      const heroSrc = heroImg ? heroImg.getAttribute('src') : '';
+      document.getElementById('heroPreview').src = heroSrc;
+
+      // about image
+      const aboutImg = doc.querySelector('.about-image img');
+      const aboutSrc = aboutImg ? aboutImg.getAttribute('src') : '';
+      document.getElementById('aboutPreview').src = aboutSrc;
+
+      // rooms
+      const roomImgs = Array.from(doc.querySelectorAll('.habitaciones .room-card img'));
+      const roomsContainer = document.getElementById('rooms');
+      roomsContainer.innerHTML = '';
+      roomImgs.forEach((img, i)=>{
+        const src = img.getAttribute('src') || '';
+        const title = (img.closest('.room-card')?.querySelector('h3')?.textContent || '').trim();
+        const desc = (img.closest('.room-card')?.querySelector('.room-description')?.textContent || '').trim();
+        const price = (img.closest('.room-card')?.querySelector('.room-price')?.textContent || '').trim();
+        const capacity = (img.closest('.room-card')?.querySelector('.room-capacity')?.textContent || '').trim();
+        const features = Array.from(img.closest('.room-card')?.querySelectorAll('.room-features span') || []).map(span => span.textContent.trim()).filter(Boolean).join('\n');
+        const wrapper = document.createElement('div');
+        wrapper.className='row section';
+        wrapper.style.marginBottom='8px';
+        wrapper.innerHTML = `\n          <div class="col">\n            <label>Room ${i+1} preview</label>\n            <img id="roomPreview${i}" class="preview" src="${src}">\n            <div style=\"margin-top:8px\"><button data-delete-room="${i}" type="button" style=\"background:#e74c3c\">Eliminar imagen</button></div>\n            <div style=\"margin-top:8px\"><button data-delete-room-card="${i}" type="button" style=\"background:#c0392b\">Eliminar habitación</button></div>\n          </div>\n          <div class="col">\n            <label>Reemplazar imagen</label>\n            <input data-room-index="${i}" class="roomInput" type="file" accept="image/*">\n            <label style=\"margin-top:8px\">Título</label>\n            <input data-room-title-index="${i}" class="roomTitle" type="text" value="${escapeHtml(title)}">\n            <label style=\"margin-top:8px\">Precio</label>\n            <input data-room-price-index="${i}" class="roomPrice" type="text" value="${escapeHtml(price)}">\n            <label style=\"margin-top:8px\">Capacidad</label>\n            <input data-room-capacity-index="${i}" class="roomCapacity" type="text" value="${escapeHtml(capacity)}">\n            <label style=\"margin-top:8px\">Comodidades</label>\n            <textarea data-room-features-index="${i}" class="roomFeatures" placeholder="Internet, TV Cable, Aire Acondicionado">${escapeHtml(features)}</textarea>\n            <label style=\"margin-top:8px\">Descripción</label>\n            <textarea data-room-desc-index="${i}" class="roomDesc">${escapeHtml(desc)}</textarea>\n          </div>\n        `;
+        roomsContainer.appendChild(wrapper);
+      });
+
+      // gallery
+      const galleryImgs = Array.from(doc.querySelectorAll('.gallery-grid .gallery-item img'));
+      const galleryContainer = document.getElementById('gallery');
+      galleryContainer.innerHTML = '';
+      galleryImgs.forEach((img,i)=>{
+        const src = img.getAttribute('src')||'';
+        const gwrap = document.createElement('div');
+        gwrap.className='row section';
+        gwrap.innerHTML = `\n          <div class="col">\n            <label>Galería ${i+1} preview</label>\n            <img id="galPreview${i}" class="preview" src="${src}">\n            <div style=\"margin-top:8px\"><button data-delete-gal="${i}" type=\"button\" style=\"background:#e74c3c\">Eliminar imagen</button></div>\n          </div>\n          <div class="col">\n            <label>Reemplazar imagen</label>\n            <input data-gal-index="${i}" class="galInput" type="file" accept="image/*">\n          </div>\n        `;
+        galleryContainer.appendChild(gwrap);
+      });
+
+      attachInputs();
+      // initialize indices for new items
+      state.nextNewRoomIndex = roomImgs.length;
+      state.nextNewGalIndex = galleryImgs.length;
+    }
+
+    function renderEditorFromHtml(text){
+      state.docText = text;
+      const doc = state.parser.parseFromString(text, 'text/html');
+      const logoImg = doc.querySelector('img.logo');
+      const logoSrc = logoImg ? logoImg.getAttribute('src') : '';
+      document.getElementById('logoPreview').src = logoSrc;
+      const heroImg = doc.querySelector('.hero-image img');
+      const heroSrc = heroImg ? heroImg.getAttribute('src') : '';
+      document.getElementById('heroPreview').src = heroSrc;
+      const aboutImg = doc.querySelector('.about-image img');
+      const aboutSrc = aboutImg ? aboutImg.getAttribute('src') : '';
+      document.getElementById('aboutPreview').src = aboutSrc;
+      const roomImgs = Array.from(doc.querySelectorAll('.habitaciones .room-card img'));
+      const roomsContainer = document.getElementById('rooms');
+      roomsContainer.innerHTML = '';
+      roomImgs.forEach((img, i)=>{
+        const src = img.getAttribute('src') || '';
+        const title = (img.closest('.room-card')?.querySelector('h3')?.textContent) || '';
+        const desc = (img.closest('.room-card')?.querySelector('.room-description')?.textContent) || '';
+        const price = (img.closest('.room-card')?.querySelector('.room-price')?.textContent) || '';
+        const capacity = (img.closest('.room-card')?.querySelector('.room-capacity')?.textContent) || '';
+        const features = Array.from(img.closest('.room-card')?.querySelectorAll('.room-features span') || []).map(span => span.textContent.trim()).filter(Boolean).join('\n');
+        const wrapper = document.createElement('div');
+        wrapper.className='row section';
+        wrapper.style.marginBottom='8px';
+        wrapper.innerHTML = `\n          <div class="col">\n            <label>Room ${i+1} preview</label>\n            <img id="roomPreview${i}" class="preview" src="${src}">\n            <div style="margin-top:8px"><button data-delete-room="${i}" type="button" style="background:#e74c3c">Eliminar imagen</button></div>\n            <div style="margin-top:8px"><button data-delete-room-card="${i}" type="button" style="background:#c0392b">Eliminar habitación</button></div>\n          </div>\n          <div class="col">\n            <label>Reemplazar imagen</label>\n            <input data-room-index="${i}" class="roomInput" type="file" accept="image/*">\n            <label style="margin-top:8px">Título</label>\n            <input data-room-title-index="${i}" class="roomTitle" type="text" value="${escapeHtml(title)}">\n            <label style="margin-top:8px">Precio</label>\n            <input data-room-price-index="${i}" class="roomPrice" type="text" value="${escapeHtml(price)}">\n            <label style="margin-top:8px">Capacidad</label>\n            <input data-room-capacity-index="${i}" class="roomCapacity" type="text" value="${escapeHtml(capacity)}">\n            <label style="margin-top:8px">Comodidades</label>\n            <textarea data-room-features-index="${i}" class="roomFeatures" placeholder="Internet, TV Cable, Aire Acondicionado">${escapeHtml(features)}</textarea>\n            <label style="margin-top:8px">Descripción</label>\n            <textarea data-room-desc-index="${i}" class="roomDesc">${escapeHtml(desc)}</textarea>\n          </div>\n        `;
+        roomsContainer.appendChild(wrapper);
+      });
+      const galleryImgs = Array.from(doc.querySelectorAll('.gallery-grid .gallery-item img'));
+      const galleryContainer = document.getElementById('gallery');
+      galleryContainer.innerHTML = '';
+      galleryImgs.forEach((img,i)=>{
+        const src = img.getAttribute('src')||'';
+        const gwrap = document.createElement('div');
+        gwrap.className='row section';
+        gwrap.innerHTML = `\n          <div class="col">\n            <label>Galería ${i+1} preview</label>\n            <img id="galPreview${i}" class="preview" src="${src}">\n            <div style="margin-top:8px"><button data-delete-gal="${i}" type="button" style="background:#e74c3c">Eliminar imagen</button></div>\n          </div>\n          <div class="col">\n            <label>Reemplazar imagen</label>\n            <input data-gal-index="${i}" class="galInput" type="file" accept="image/*">\n          </div>\n        `;
+        galleryContainer.appendChild(gwrap);
+      });
+      attachInputs();
+      state.nextNewRoomIndex = roomImgs.length;
+      state.nextNewGalIndex = galleryImgs.length;
+    }
+
+    loadIndex = async function(){
+      try{
+        const snap = await getDoc(docRef(db,'pages','index'));
+        if(snap.exists() && snap.data().templateHtml){
+          const rawHtml = snap.data().templateHtml;
+          const html = await resolveFirebaseImagePlaceholders(rawHtml);
+          saveToLocalStorage(html);
+          renderEditorFromHtml(html);
+          return;
+        }
+      }catch(err){
+        console.warn('No se pudo cargar desde Firestore; se usará lo guardado localmente.', err);
+      }
+
+      const localHtml = loadFromLocalStorage();
+      if(localHtml){
+        renderEditorFromHtml(localHtml);
+        return;
+      }
+
+      try{
+        const res = await fetch('index.html?ts=' + Date.now(), { cache: 'no-store' });
+        const text = await res.text();
+        renderEditorFromHtml(text);
+      }catch(err){
+        console.error('No se pudo cargar el HTML local ni desde Firestore.', err);
+        document.getElementById('status').textContent = 'No se pudo cargar el contenido';
+      }
+    };
+
+    // utility to mark deletions
+    function markDeletion(key, previewId){
+      delete state.replacements[key];
+      state.deletions = state.deletions || {};
+      state.deletions[key] = true;
+      if(previewId) document.getElementById(previewId).src = '';
+    }
+
+    function escapeHtml(s){
+      return s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
+    }
+
+    function attachInputs(){
+      document.getElementById('logoInput').addEventListener('change', e=>readFileAsDataURL(e.target.files[0]).then(data=>{
+        document.getElementById('logoPreview').src = data;
+        state.replacements.logo = data;
+        if(state.deletions) state.deletions.logo = false;
+      }));
+      document.getElementById('deleteLogo').addEventListener('click', ()=>markDeletion('logo','logoPreview'));
+
+      document.getElementById('heroInput').addEventListener('change', e=>readFileAsDataURL(e.target.files[0]).then(data=>{
+        document.getElementById('heroPreview').src = data;
+        state.replacements.hero = data;
+        if(state.deletions) state.deletions.hero = false;
+      }));
+      document.getElementById('deleteHero').addEventListener('click', ()=>markDeletion('hero','heroPreview'));
+
+      document.getElementById('aboutInput').addEventListener('change', e=>readFileAsDataURL(e.target.files[0]).then(data=>{
+        document.getElementById('aboutPreview').src = data;
+        state.replacements.about = data;
+        if(state.deletions) state.deletions.about = false;
+      }));
+      document.getElementById('deleteAbout').addEventListener('click', ()=>markDeletion('about','aboutPreview'));
+
+      document.querySelectorAll('.roomInput').forEach(inp=>{
+        inp.addEventListener('change', e=>{
+          const i = e.target.dataset.roomIndex;
+          readFileAsDataURL(e.target.files[0]).then(data=>{
+            document.getElementById('roomPreview'+i).src = data;
+            state.replacements['room-'+i] = data;
+          });
+        });
+      });
+      document.querySelectorAll('[data-delete-room]').forEach(btn=>{
+        btn.addEventListener('click', e=>{
+          const i = btn.getAttribute('data-delete-room');
+          markDeletion('room-'+i, 'roomPreview'+i);
+        });
+      });
+      document.querySelectorAll('[data-delete-room-card]').forEach(btn=>{
+        btn.addEventListener('click', e=>{
+          const i = btn.getAttribute('data-delete-room-card');
+          markDeletion('roomcard-'+i);
+          const wrapper = btn.closest('.row.section');
+          if(wrapper) wrapper.remove();
+        });
+      });
+
+      document.querySelectorAll('.roomTitle').forEach(inp=>{
+        inp.addEventListener('input', e=>{
+          const i = e.target.dataset.roomTitleIndex;
+          state.replacements['room-title-'+i] = e.target.value;
+        });
+      });
+
+      document.querySelectorAll('.roomDesc').forEach(inp=>{
+        inp.addEventListener('input', e=>{
+          const i = e.target.dataset.roomDescIndex;
+          state.replacements['room-desc-'+i] = e.target.value;
+        });
+      });
+
+      document.querySelectorAll('.roomPrice').forEach(inp=>{
+        inp.addEventListener('input', e=>{
+          const i = e.target.dataset.roomPriceIndex;
+          state.replacements['room-price-'+i] = e.target.value;
+        });
+      });
+
+      document.querySelectorAll('.roomCapacity').forEach(inp=>{
+        inp.addEventListener('input', e=>{
+          const i = e.target.dataset.roomCapacityIndex;
+          state.replacements['room-capacity-'+i] = e.target.value;
+        });
+      });
+
+      document.querySelectorAll('.roomFeatures').forEach(inp=>{
+        inp.addEventListener('input', e=>{
+          const i = e.target.dataset.roomFeaturesIndex;
+          state.replacements['room-features-'+i] = e.target.value;
+        });
+      });
+
+      document.querySelectorAll('.galInput').forEach(inp=>{
+        inp.addEventListener('change', e=>{
+          const i = e.target.dataset.galIndex;
+          readFileAsDataURL(e.target.files[0]).then(data=>{
+            document.getElementById('galPreview'+i).src = data;
+            state.replacements['gal-'+i] = data;
+          });
+        });
+      });
+      document.querySelectorAll('[data-delete-gal]').forEach(btn=>{
+        btn.addEventListener('click', e=>{
+          const i = btn.getAttribute('data-delete-gal');
+          markDeletion('gal-'+i, 'galPreview'+i);
+        });
+      });
+      // add new item buttons
+      document.getElementById('addRoomBtn').addEventListener('click', ()=>createRoomEditorForNew(state.nextNewRoomIndex++));
+      document.getElementById('addGalleryBtn').addEventListener('click', ()=>createGalleryEditorForNew(state.nextNewGalIndex++));
+    }
+
+    // helpers to create dynamic editors for new rooms/gallery
+    function createRoomEditorForNew(index, src='', title='', desc='', price='', capacity='', features=''){
+      state.replacements = state.replacements || {};
+      const roomsContainer = document.getElementById('rooms');
+      const wrapper = document.createElement('div');
+      wrapper.className='row section';
+      wrapper.id = 'newRoomEditor'+index;
+      wrapper.innerHTML = `\n        <div class="col">\n          <label>Room ${index+1} preview</label>\n          <img id="newRoomPreview${index}" class="preview" src="${src}">\n          <div style="margin-top:8px"><button data-delete-new-room="${index}" type="button" style="background:#e74c3c">Eliminar</button></div>\n        </div>\n        <div class="col">\n          <label>Reemplazar imagen</label>\n          <input data-new-room-index="${index}" class="roomInputNew" type="file" accept="image/*">\n          <label style="margin-top:8px">Título</label>\n          <input data-new-room-title-index="${index}" class="roomTitleNew" type="text" value="${escapeHtml(title)}">\n          <label style="margin-top:8px">Precio</label>\n          <input data-new-room-price-index="${index}" class="roomPriceNew" type="text" value="${escapeHtml(price)}">\n          <label style="margin-top:8px">Capacidad</label>\n          <input data-new-room-capacity-index="${index}" class="roomCapacityNew" type="text" value="${escapeHtml(capacity)}">\n          <label style="margin-top:8px">Comodidades</label>\n          <textarea data-new-room-features-index="${index}" class="roomFeaturesNew" placeholder="Internet, TV Cable, Aire Acondicionado">${escapeHtml(features)}</textarea>\n          <label style="margin-top:8px">Descripción</label>\n          <textarea data-new-room-desc-index="${index}" class="roomDescNew">${escapeHtml(desc)}</textarea>\n        </div>\n      `;
+      roomsContainer.appendChild(wrapper);
+      // attach handlers
+      wrapper.querySelector('[data-new-room-index]').addEventListener('change', e=>{
+        const file = e.target.files[0];
+        readFileAsDataURL(file).then(data=>{
+          document.getElementById('newRoomPreview'+index).src = data;
+          state.replacements['new-room-'+index] = data;
+        });
+      });
+      wrapper.querySelector('[data-new-room-title-index]').addEventListener('input', e=>{
+        state.replacements['new-room-title-'+index] = e.target.value;
+      });
+      wrapper.querySelector('[data-new-room-price-index]').addEventListener('input', e=>{
+        state.replacements['new-room-price-'+index] = e.target.value;
+      });
+      wrapper.querySelector('[data-new-room-capacity-index]').addEventListener('input', e=>{
+        state.replacements['new-room-capacity-'+index] = e.target.value;
+      });
+      wrapper.querySelector('[data-new-room-features-index]').addEventListener('input', e=>{
+        state.replacements['new-room-features-'+index] = e.target.value;
+      });
+      wrapper.querySelector('[data-new-room-desc-index]').addEventListener('input', e=>{
+        state.replacements['new-room-desc-'+index] = e.target.value;
+      });
+      wrapper.querySelector('[data-delete-new-room]').addEventListener('click', ()=>{
+        delete state.replacements['new-room-'+index];
+        delete state.replacements['new-room-title-'+index];
+        delete state.replacements['new-room-price-'+index];
+        delete state.replacements['new-room-capacity-'+index];
+        delete state.replacements['new-room-features-'+index];
+        delete state.replacements['new-room-desc-'+index];
+        const el = document.getElementById('newRoomEditor'+index); if(el) el.remove();
+      });
+    }
+
+    function createGalleryEditorForNew(index, src=''){
+      const galleryContainer = document.getElementById('gallery');
+      const wrapper = document.createElement('div');
+      wrapper.className='row section';
+      wrapper.id = 'newGalEditor'+index;
+      wrapper.innerHTML = `\n        <div class="col">\n          <label>Galería ${index+1} preview</label>\n          <img id="newGalPreview${index}" class="preview" src="${src}">\n          <div style="margin-top:8px"><button data-delete-new-gal="${index}" type="button" style="background:#e74c3c">Eliminar</button></div>\n        </div>\n        <div class="col">\n          <label>Reemplazar imagen</label>\n          <input data-new-gal-index="${index}" class="galInputNew" type="file" accept="image/*">\n        </div>\n      `;
+      galleryContainer.appendChild(wrapper);
+      const previewImg = wrapper.querySelector('img');
+      wrapper.querySelector('[data-new-gal-index]').addEventListener('change', e=>{
+        const file = e.target.files[0];
+        if(!file) return;
+        readFileAsDataURL(file).then(data=>{
+          if(previewImg) previewImg.src = data;
+          state.replacements['new-gal-'+index] = data;
+        });
+      });
+      wrapper.querySelector('[data-delete-new-gal]').addEventListener('click', ()=>{
+        delete state.replacements['new-gal-'+index];
+        const el = document.getElementById('newGalEditor'+index); if(el) el.remove();
+      });
+    }
+
+    function buildRoomFeaturesHtml(text){
+      const items = String(text || '').split(/\n|,|;/).map(item=>item.trim()).filter(Boolean);
+      if(!items.length) return '';
+      return items.map(item=>{
+        const label = item.toLowerCase();
+        let icon = 'fa-check-circle';
+        if(label.includes('wifi') || label.includes('internet')) icon = 'fa-wifi';
+        else if(label.includes('tv') || label.includes('cable')) icon = 'fa-tv';
+        else if(label.includes('aire') || label.includes('clima') || label.includes('acondicionado')) icon = 'fa-snowflake';
+        else if(label.includes('desayuno')) icon = 'fa-utensils';
+        else if(label.includes('parking') || label.includes('estacion')) icon = 'fa-car';
+        else if(label.includes('baño') || label.includes('ducha')) icon = 'fa-bath';
+        return `<span><i class="fas ${icon}"></i> ${escapeHtml(item)}</span>`;
+      }).join('');
+    }
+
+    function readFileAsDataURL(file){
+      return new Promise((res,rej)=>{
+        if(!file){res('');return}
+
+        const name = (file.name || '').toLowerCase();
+        const type = (file.type || '').toLowerCase();
+        const needsConversion = type === 'image/heic' || type === 'image/heif' || name.endsWith('.heic') || name.endsWith('.heif');
+
+        const fallbackRead = ()=>{
+          const fr = new FileReader();
+          fr.onload = ()=>res(fr.result);
+          fr.onerror = ()=>rej(fr.error);
+          fr.readAsDataURL(file);
+        };
+
+        if(!needsConversion){
+          fallbackRead();
+          return;
+        }
+
+        if(typeof createImageBitmap === 'function'){
+          createImageBitmap(file).then(bitmap=>{
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            if(!ctx){ fallbackRead(); return; }
+            canvas.width = bitmap.width;
+            canvas.height = bitmap.height;
+            ctx.drawImage(bitmap, 0, 0);
+            res(canvas.toDataURL('image/jpeg', 0.92));
+          }).catch(()=>fallbackRead());
+          return;
+        }
+
+        fallbackRead();
+      });
+    }
+
+    async function storeImageDataURL(dataUrl){
+      if(!dataUrl) return null;
+      if(state.uploadedImages.has(dataUrl)) return state.uploadedImages.get(dataUrl);
+      const [header, base64] = dataUrl.split(',', 2);
+      const id = 'img_'+Date.now()+'_'+Math.random().toString(36).slice(2,9);
+      await setDoc(docRef(db,'images',id), {header: header + ',', createdAt: new Date().toISOString()});
+      const chunkCount = Math.ceil(base64.length / CHUNK_SIZE);
+      for(let index = 0; index < chunkCount; index++){
+        const chunk = base64.slice(index * CHUNK_SIZE, (index + 1) * CHUNK_SIZE);
+        await setDoc(docRef(db,'images',id,'chunks',String(index)), {index, data: chunk});
+      }
+      state.uploadedImages.set(dataUrl, id);
+      return id;
+    }
+
+    document.getElementById('generate').addEventListener('click', async ()=>{
+      try{
+        if(!state.docText){document.getElementById('status').textContent='Documento no cargado';return}
+        document.getElementById('status').textContent='Preparando HTML...';
+        const doc = state.parser.parseFromString(state.docText,'text/html');
+
+        // apply replacements and deletions but prefer data-URLs so local file contains actual images
+        // top-level
+        if(state.deletions && state.deletions.logo){ const l = doc.querySelector('img.logo'); if(l) l.remove(); }
+        else if(state.replacements.logo){ const logo = doc.querySelector('img.logo'); if(logo) logo.setAttribute('src', state.replacements.logo); }
+
+        if(state.deletions && state.deletions.hero){ const h = doc.querySelector('.hero-image img'); if(h) h.remove(); }
+        else if(state.replacements.hero){ const hero = doc.querySelector('.hero-image img'); if(hero) hero.setAttribute('src', state.replacements.hero); }
+
+        if(state.deletions && state.deletions.about){ const a = doc.querySelector('.about-image img'); if(a) a.remove(); }
+        else if(state.replacements.about){ const about = doc.querySelector('.about-image img'); if(about) about.setAttribute('src', state.replacements.about); }
+
+        // rooms existing
+        const roomCards = Array.from(doc.querySelectorAll('.habitaciones .room-card'));
+        for(let i=0;i<roomCards.length;i++){
+          const card = roomCards[i];
+          if(state.deletions && state.deletions['roomcard-'+i]){ card.remove(); continue; }
+          const img = card.querySelector('img');
+          if(state.deletions && state.deletions['room-'+i]){
+            if(img) img.remove();
+          } else if(state.replacements['room-'+i] && img){
+            img.setAttribute('src', state.replacements['room-'+i]);
+          }
+          const titleEl = card.querySelector('h3');
+          const titleKey = 'room-title-'+i;
+          if(state.replacements[titleKey] && titleEl){
+            titleEl.textContent = state.replacements[titleKey];
+          }
+          const descEl = card.querySelector('.room-description');
+          const descKey = 'room-desc-'+i;
+          if(state.replacements[descKey] && descEl){
+            descEl.textContent = state.replacements[descKey];
+          }
+          const priceText = state.replacements['room-price-'+i];
+          if(priceText !== undefined){
+            let priceEl = card.querySelector('.room-price');
+            if(!priceEl){
+              priceEl = doc.createElement('p');
+              priceEl.className = 'room-price';
+              const roomInfo = card.querySelector('.room-info');
+              if(roomInfo) roomInfo.insertBefore(priceEl, roomInfo.querySelector('.room-features'));
+            }
+            priceEl.textContent = priceText;
+          }
+          const capacityText = state.replacements['room-capacity-'+i];
+          if(capacityText !== undefined){
+            let capacityEl = card.querySelector('.room-capacity');
+            if(!capacityEl){
+              capacityEl = doc.createElement('p');
+              capacityEl.className = 'room-capacity';
+              const roomInfo = card.querySelector('.room-info');
+              if(roomInfo) roomInfo.insertBefore(capacityEl, roomInfo.querySelector('.room-features'));
+            }
+            capacityEl.innerHTML = `<i class="fas fa-bed"></i> ${escapeHtml(capacityText)}`;
+          }
+          const featuresText = state.replacements['room-features-'+i];
+          if(featuresText !== undefined){
+            let featuresEl = card.querySelector('.room-features');
+            if(!featuresEl){
+              featuresEl = doc.createElement('div');
+              featuresEl.className = 'room-features';
+              const roomInfo = card.querySelector('.room-info');
+              if(roomInfo) roomInfo.insertBefore(featuresEl, roomInfo.querySelector('.room-capacity'));
+            }
+            featuresEl.innerHTML = buildRoomFeaturesHtml(featuresText);
+          }
+        }
+
+        // gallery existing
+        const galleryItems = Array.from(doc.querySelectorAll('.gallery-grid .gallery-item'));
+        for(let i=0;i<galleryItems.length;i++){
+          const item = galleryItems[i];
+          const img = item.querySelector('img');
+          if(state.deletions && state.deletions['gal-'+i]){ item.remove(); continue; }
+          if(state.replacements['gal-'+i] && img){ img.setAttribute('src', state.replacements['gal-'+i]); }
+        }
+
+        // add new rooms (inline with data URLs)
+        if(state.replacements){
+          const habitGrid = doc.querySelector('.habitaciones .habitaciones-grid');
+          if(habitGrid){
+            Object.keys(state.replacements).forEach(k=>{
+              if(/^new-room-\d+$/.test(k)){
+                const idx = k.split('new-room-')[1];
+                const src = state.replacements[k];
+                const title = state.replacements['new-room-title-'+idx] || 'Nueva Habitación';
+                const desc = state.replacements['new-room-desc-'+idx] || '';
+                const price = state.replacements['new-room-price-'+idx] || 'Precio a consultar';
+                const capacity = state.replacements['new-room-capacity-'+idx] || 'Para 2 personas';
+                const features = state.replacements['new-room-features-'+idx] || 'Internet\nTV Cable\nAire Acondicionado';
+                const card = doc.createElement('div');
+                card.className = 'room-card';
+                const img = doc.createElement('img');
+                img.dataset.replacementKey = 'new-room-'+idx;
+                if(src) img.setAttribute('src', src);
+                card.appendChild(img);
+                const info = doc.createElement('div'); info.className='room-info';
+                info.innerHTML = `<h3>${escapeHtml(title)}</h3><p class="room-description">${escapeHtml(desc)}</p><p class="room-price">${escapeHtml(price)}</p><div class="room-features">${buildRoomFeaturesHtml(features)}</div><p class="room-capacity"><i class="fas fa-bed"></i> ${escapeHtml(capacity)}</p>`;
+                card.appendChild(info);
+                habitGrid.appendChild(card);
+              }
+            });
+          }
+
+          // add any new gallery images inline
+          const galGrid = doc.querySelector('.gallery-grid');
+          if(galGrid){
+            Object.keys(state.replacements).forEach(k=>{
+              if(k.startsWith('new-gal-')){
+                const src = state.replacements[k];
+                const item = doc.createElement('div'); item.className='gallery-item';
+                const img = doc.createElement('img'); if(src) img.setAttribute('src', src);
+                item.appendChild(img);
+                const overlay = doc.createElement('div'); overlay.className='gallery-overlay'; overlay.innerHTML = '<i class="fas fa-search-plus"></i>';
+                item.appendChild(overlay);
+                galGrid.appendChild(item);
+              }
+            });
+          }
+        }
+
+        const serializedLocal = '<!DOCTYPE html>\n' + doc.documentElement.outerHTML;
+        document.getElementById('status').textContent='Guardando en Firebase...';
+
+        // prepare a firebase-friendly copy
+        const firebaseDoc = state.parser.parseFromString(serializedLocal,'text/html');
+
+        // Ensure any remaining data: URL images are uploaded and replaced with placeholders
+        const inlineImgs = Array.from(firebaseDoc.querySelectorAll('img')).filter(i=>{
+          const s = i.getAttribute('src') || '';
+          return s.startsWith('data:');
+        });
+        for(const imgEl of inlineImgs){
+          try{
+            const s = imgEl.getAttribute('src');
+            if(!s) continue;
+            // try to find a matching replacement key first
+            let id = null;
+            if(state.replacements){
+              for(const k of Object.keys(state.replacements)){
+                if(state.replacements[k] === s){
+                  id = await storeImageDataURL(s);
+                  break;
+                }
+              }
+            }
+            if(!id){
+              id = await storeImageDataURL(s);
+            }
+            if(id) imgEl.setAttribute('src', 'FIREBASE_IMG::'+id);
+          }catch(e){
+            console.warn('Failed uploading inline image for placeholder:', e);
+          }
+        }
+
+        // upload images and replace the src in the stored HTML with placeholders
+        if(firebaseDoc.querySelector('img.logo') && state.replacements.logo){ const logoId = await storeImageDataURL(state.replacements.logo); if(logoId) firebaseDoc.querySelector('img.logo').setAttribute('src', 'FIREBASE_IMG::'+logoId); }
+        if(firebaseDoc.querySelector('.hero-image img') && state.replacements.hero){ const heroId = await storeImageDataURL(state.replacements.hero); if(heroId) firebaseDoc.querySelector('.hero-image img').setAttribute('src', 'FIREBASE_IMG::'+heroId); }
+        if(firebaseDoc.querySelector('.about-image img') && state.replacements.about){ const aboutId = await storeImageDataURL(state.replacements.about); if(aboutId) firebaseDoc.querySelector('.about-image img').setAttribute('src', 'FIREBASE_IMG::'+aboutId); }
+
+        // existing rooms
+        const firebaseRoomCards = Array.from(firebaseDoc.querySelectorAll('.habitaciones .room-card'));
+        for(let i=0;i<firebaseRoomCards.length;i++){
+          const img = firebaseRoomCards[i].querySelector('img');
+          const key = 'room-'+i;
+          if(state.replacements[key] && img){ const id = await storeImageDataURL(state.replacements[key]); if(id) img.setAttribute('src', 'FIREBASE_IMG::'+id); }
+        }
+
+        // existing gallery
+        const firebaseGalleryImgs = Array.from(firebaseDoc.querySelectorAll('.gallery-grid .gallery-item img'));
+        for(let i=0;i<firebaseGalleryImgs.length;i++){
+          const key = 'gal-'+i;
+          if(state.replacements[key]){ const id = await storeImageDataURL(state.replacements[key]); if(id) firebaseGalleryImgs[i].setAttribute('src', 'FIREBASE_IMG::'+id); }
+        }
+
+        // new rooms
+        if(state.replacements){
+          for(const k of Object.keys(state.replacements)){
+            if(/^new-room-\d+$/.test(k)){
+              const src = state.replacements[k];
+              if(src){ const id = await storeImageDataURL(src); const img = firebaseDoc.querySelector(`img[data-replacement-key="${k}"]`); if(img) img.setAttribute('src', 'FIREBASE_IMG::'+id); }
+            }
+          }
+        }
+
+        // new gallery
+        if(state.replacements){
+          for(const k of Object.keys(state.replacements)){
+            if(k.startsWith('new-gal-')){
+              const src = state.replacements[k];
+              if(src){
+                const id = await storeImageDataURL(src);
+                if(id){
+                  let img = firebaseDoc.querySelector(`img[data-replacement-key="${k}"]`);
+                  if(!img){
+                    img = Array.from(firebaseDoc.querySelectorAll('img')).find(node=> node.dataset.replacementKey === k || node.getAttribute('src') === src);
+                  }
+                  if(img) img.setAttribute('src', 'FIREBASE_IMG::'+id);
+                }
+              }
+            }
+          }
+        }
+
+        firebaseDoc.querySelectorAll('img[data-replacement-key]').forEach(img=> img.removeAttribute('data-replacement-key'));
+
+        const serializedFirebase = '<!DOCTYPE html>\n' + firebaseDoc.documentElement.outerHTML;
+        try{
+          await setDoc(docRef(db,'pages','index'), {templateHtml: serializedFirebase, updatedAt: new Date().toISOString()});
+          saveToLocalStorage(serializedLocal);
+          state.docText = serializedLocal;
+          document.getElementById('status').textContent='Guardado en Firebase y en este navegador.';
+        }catch(err){
+          saveToLocalStorage(serializedLocal);
+          state.docText = serializedLocal;
+          console.error('Error al guardar en Firebase; se guardó localmente:', err);
+          document.getElementById('status').textContent='Guardado localmente en este navegador.';
+        }
+      }catch(err){
+        console.error('Error al preparar o guardar el contenido:', err);
+        document.getElementById('status').textContent='Error al guardar (ver consola).';
+      }
+    });
+
+    loadIndex().catch(err=>{
+      console.error(err);document.getElementById('status').textContent='No se pudo cargar index.html';
+    });
+  </script>
+</body>
+</html>
