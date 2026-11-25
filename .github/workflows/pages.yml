@@ -32,9 +32,9 @@ jobs:
           cp index.html dashboard.html agregarusuario.html styles.css config.js login.js dashboard.js agregarusuario.js edicionusuarios.js utils.js _site/
           cp -R IMAGENESINTERIORESDELHOTEL VELVETROOMEMILIANOZAPATA web _site/
       - name: Upload site
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: _site
       - name: Deploy
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
