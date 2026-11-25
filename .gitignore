@@ -1,0 +1,10 @@
+# Firebase admin credentials and local tooling
+serviceAccountKey.json
+.firebase/
+firebase-debug.log
+*.log
+
+# OS metadata and local dependencies
+*:Zone.Identifier
+.DS_Store
+node_modules/

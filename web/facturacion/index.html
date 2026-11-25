@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Facturación - Velvet Room Auto Hotel</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Portal para huéspedes</p>
+        <h1>Tu factura en minutos</h1>
+        <p>Completa tus datos de reserva y descarga tu comprobante de pago en formato PDF desde el mismo portal.</p>
+      </div>
+      <a class="back-link" href="../index.html">← Volver al sitio</a>
+    </header>
+
+    <main class="layout">
+      <section class="panel form-panel">
+        <h2>Información de la reserva</h2>
+        <p class="helper-text">Ingresa tus datos y genera tu factura de forma rápida, clara y segura.</p>
+        <form id="invoiceForm">
+          <!-- Datos del huésped -->
+          <div class="form-section-title"><i class="fas fa-user"></i> Datos del huésped</div>
+          <div class="field-grid">
+            <label>
+              <span>Nombre del cliente</span>
+              <input type="text" id="cliente" name="cliente" placeholder="Ej. Ana López" required />
+            </label>
+            <label>
+              <span>Correo electrónico</span>
+              <input type="email" id="correo" name="correo" placeholder="cliente@correo.com" required />
+            </label>
+            <label>
+              <span>Teléfono</span>
+              <input type="tel" id="telefono" name="telefono" placeholder="Teléfono de contacto" required />
+            </label>
+          </div>
+
+          <!-- Datos fiscales CFDI 4.0 -->
+          <div class="form-section-title"><i class="fas fa-file-invoice"></i> Datos fiscales (CFDI 4.0)</div>
+          <div class="field-grid">
+            <label class="full-width">
+              <span>Razón social / Nombre fiscal</span>
+              <input type="text" id="razonSocial" name="razonSocial" placeholder="Tal como aparece en el SAT (mayúsculas)" style="text-transform:uppercase" />
+            </label>
+            <label>
+              <span>RFC</span>
+              <input type="text" id="rfc" name="rfc" placeholder="XAXX010101000" maxlength="13" oninput="this.value=this.value.toUpperCase()" />
+            </label>
+            <label>
+              <span>Código Postal Fiscal</span>
+              <input type="text" id="cpFiscal" name="cpFiscal" placeholder="Código postal de facturación" maxlength="5" pattern="[0-9]{5}" inputmode="numeric" />
+            </label>
+            <label class="full-width">
+              <span>Régimen Fiscal</span>
+              <select id="regimenFiscal" name="regimenFiscal">
+                <option value="">— Selecciona régimen —</option>
+                <option value="601 - General de Ley Personas Morales">601 - General de Ley Personas Morales</option>
+                <option value="603 - Personas Morales con Fines no Lucrativos">603 - Personas Morales con Fines no Lucrativos</option>
+                <option value="605 - Sueldos y Salarios e Ingresos Asimilados">605 - Sueldos y Salarios e Ingresos Asimilados</option>
+                <option value="606 - Arrendamiento">606 - Arrendamiento</option>
+                <option value="608 - Demás ingresos">608 - Demás ingresos</option>
+                <option value="612 - Personas Físicas con Actividades Empresariales y Profesionales">612 - Personas Físicas con Act. Empresariales y Profesionales</option>
+                <option value="616 - Sin obligaciones fiscales">616 - Sin obligaciones fiscales</option>
+                <option value="621 - Incorporación Fiscal">621 - Incorporación Fiscal</option>
+                <option value="626 - Régimen Simplificado de Confianza (RESICO)">626 - Régimen Simplificado de Confianza (RESICO)</option>
+              </select>
+            </label>
+            <label class="full-width">
+              <span>Uso de CFDI</span>
+              <select id="usoCFDI" name="usoCFDI">
+                <option value="">— Selecciona uso —</option>
+                <option value="G01 - Adquisición de mercancias">G01 - Adquisición de mercancias</option>
+                <option value="G03 - Gastos en general" selected>G03 - Gastos en general</option>
+                <option value="D01 - Honorarios médicos, dentales y gastos hospitalarios">D01 - Honorarios médicos y gastos hospitalarios</option>
+                <option value="D10 - Pagos por servicios educativos (colegiaturas)">D10 - Pagos por servicios educativos</option>
+                <option value="S01 - Sin efectos fiscales">S01 - Sin efectos fiscales</option>
+                <option value="CP01 - Pagos">CP01 - Pagos</option>
+              </select>
+            </label>
+          </div>
+
+          <!-- Datos de la estancia -->
+          <div class="form-section-title"><i class="fas fa-bed"></i> Datos de la estancia</div>
+          <div class="field-grid">
+            <label>
+              <span>Habitación</span>
+              <select id="habitacion" name="habitacion" required>
+                <option value="Matrimonial">Matrimonial</option>
+                <option value="King Size">King Size</option>
+                <option value="Presidencial">Presidencial</option>
+                <option value="Individual">Individual</option>
+              </select>
+            </label>
+            <label>
+              <span>Noches</span>
+              <input type="number" id="noches" name="noches" min="1" value="2" required />
+            </label>
+            <label>
+              <span>Folio</span>
+              <input type="text" id="folio" name="folio" value="F-2026-001" />
+            </label>
+            <label>
+              <span>Forma de pago</span>
+              <select id="pago" name="pago">
+                <option value="Efectivo">Efectivo</option>
+                <option value="Transferencia electrónica">Transferencia electrónica</option>
+                <option value="Tarjeta de débito">Tarjeta de débito</option>
+                <option value="Tarjeta de crédito">Tarjeta de crédito</option>
+              </select>
+            </label>
+            <label>
+              <span>Descuento (%)</span>
+              <input type="number" id="descuento" name="descuento" min="0" max="100" value="0" />
+            </label>
+            <label>
+              <span>Fecha de emisión</span>
+              <input type="date" id="fechaEmision" name="fechaEmision" />
+            </label>
+          </div>
+
+          <div class="checkboxes">
+            <label><input type="checkbox" id="desayuno" /> Desayuno incluido</label>
+            <label><input type="checkbox" id="transporte" /> Transporte</label>
+            <label><input type="checkbox" id="limpieza" /> Servicio de limpieza</label>
+          </div>
+
+          <label>
+            <span>Observaciones</span>
+            <textarea id="observaciones" name="observaciones" rows="3" placeholder="Ej. Llegada tardía, 2 personas, etc."></textarea>
+          </label>
+
+          <div class="actions">
+            <button type="submit" class="btn btn-primary">Generar mi factura</button>
+            <button type="button" id="resetBtn" class="btn btn-secondary">Limpiar</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel invoice-panel">
+        <div class="invoice-header">
+          <div>
+            <p class="eyebrow">Vista previa</p>
+            <h2 id="invoiceTitle">Factura preliminar</h2>
+          </div>
+          <button id="downloadBtn" class="btn btn-secondary">Descargar PDF</button>
+        </div>
+
+        <div id="invoicePreview" class="invoice-preview">
+          <div class="company-bar">
+            <div>
+              <h3>Velvet Room Auto Hotel</h3>
+              <p>Comprobante de estancia</p>
+            </div>
+            <div class="invoice-badge">
+              <strong id="invoiceNumber">Factura preliminar</strong>
+              <span id="invoiceDate">Fecha: --</span>
+            </div>
+          </div>
+
+          <div class="invoice-meta">
+            <div class="client-block">
+              <h4>Datos del receptor</h4>
+              <p id="previewCliente" style="font-weight:700;margin:0 0 2px;">Sin datos</p>
+              <p id="previewRazonSocial" style="font-size:12px;color:#555;margin:2px 0;">Razón Social: --</p>
+              <p id="previewContacto" style="font-size:12px;color:#666;margin:2px 0;">Correo y teléfono aparecerán aquí</p>
+              <p id="previewRfc" style="font-size:12px;margin:2px 0;">RFC: --</p>
+              <p id="previewCpFiscal" style="font-size:12px;margin:2px 0;">C.P. Fiscal: --</p>
+              <p id="previewRegimenFiscal" style="font-size:12px;margin:2px 0;">Régimen: --</p>
+              <p id="previewUsoCFDI" style="font-size:12px;margin:2px 0;">Uso CFDI: --</p>
+            </div>
+            <div class="invoice-details">
+              <div><span>Folio</span><strong id="previewFolio">--</strong></div>
+              <div><span>Forma de pago</span><strong id="previewPago">--</strong></div>
+              <div><span>Fecha de emisión</span><strong id="previewFecha">--</strong></div>
+            </div>
+          </div>
+
+          <table class="invoice-table">
+            <thead>
+              <tr>
+                <th>Concepto</th>
+                <th>Detalle</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody id="invoiceItems"></tbody>
+          </table>
+
+          <div class="totals">
+            <div><span>Subtotal</span><strong id="subtotal">$0.00</strong></div>
+            <div><span>IVA (16%)</span><strong id="iva">$0.00</strong></div>
+            <div><span>Descuento</span><strong id="discountValue">$0.00</strong></div>
+            <div class="grand-total"><span>Total</span><strong id="total">$0.00</strong></div>
+          </div>
+
+          <div class="notes">
+            <h3>Observaciones</h3>
+            <p id="previewObservaciones">Sin observaciones.</p>
+            <p class="small-note">Condiciones: Pago anticipado o al momento del check-in.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

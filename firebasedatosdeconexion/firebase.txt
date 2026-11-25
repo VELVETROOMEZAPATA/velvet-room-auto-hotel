@@ -1,0 +1,23 @@
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyAh5zc1N3M0jI3RKuwo7ULswTBMlkO5eZY",
+    authDomain: "velvet-room-auto-hotel.firebaseapp.com",
+    projectId: "velvet-room-auto-hotel",
+    storageBucket: "velvet-room-auto-hotel.firebasestorage.app",
+    messagingSenderId: "495159495303",
+    appId: "1:495159495303:web:de3d58c7db8b9ecb074622",
+    measurementId: "G-Y92RML2E8M"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
