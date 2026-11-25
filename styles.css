@@ -40,6 +40,14 @@ body {
   margin-bottom: 30px;
 }
 
+.login-brand-logo {
+  display: block;
+  width: min(100%, 285px);
+  height: auto;
+  margin: 0 auto;
+  border-radius: 12px;
+}
+
 .logo-img {
   max-width: 80px;
   height: auto;
@@ -183,6 +191,14 @@ body {
   --velvet-black: #070404;
   --velvet-taupe: #9b845f;
   --velvet-rose: #a7475c;
+}
+
+.sidebar-logo-img {
+  width: 42px;
+  height: 42px;
+  object-fit: cover;
+  border-radius: 10px;
+  flex: 0 0 auto;
 }
 
 .dashboard-container { background: var(--velvet-cream) !important; }
