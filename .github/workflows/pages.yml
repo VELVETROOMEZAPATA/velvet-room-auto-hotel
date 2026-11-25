@@ -6,35 +6,39 @@ on:
   workflow_dispatch:
 
 permissions:
-  actions: read
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
       - name: Assemble website files
         run: |
           mkdir -p _site
+          mkdir -p _site/VELVETROOMEMILIANOZAPATA
           cp index.html dashboard.html agregarusuario.html styles.css config.js login.js dashboard.js agregarusuario.js edicionusuarios.js utils.js _site/
-          cp -R IMAGENESINTERIORESDELHOTEL VELVETROOMEMILIANOZAPATA web _site/
-      - name: Upload site
-        uses: actions/upload-pages-artifact@v5
+          cp -R IMAGENESINTERIORESDELHOTEL web _site/
+          cp VELVETROOMEMILIANOZAPATA/logo.jpeg VELVETROOMEMILIANOZAPATA/logoconelnombredelhotel.jpeg VELVETROOMEMILIANOZAPATA/fotodeportadahotelentradabienvenida.jpeg _site/VELVETROOMEMILIANOZAPATA/
+      - name: Checkout Pages branch
+        uses: actions/checkout@v4
         with:
-          path: _site
-      - name: Deploy
-        id: deployment
-        uses: actions/deploy-pages@v5
+          ref: gh-pages
+          path: _deploy
+      - name: Publish site files
+        run: |
+          rsync -a --delete --exclude=.git _site/ _deploy/
+          git -C _deploy config user.name "github-actions[bot]"
+          git -C _deploy config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git -C _deploy add -A
+          if git -C _deploy diff --cached --quiet; then
+            :
+          else
+            git -C _deploy commit -m "Deploy ${GITHUB_SHA} to GitHub Pages"
+            git -C _deploy push origin gh-pages
+          fi
