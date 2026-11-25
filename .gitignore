@@ -8,3 +8,4 @@ firebase-debug.log
 *:Zone.Identifier
 .DS_Store
 node_modules/
+_site/
