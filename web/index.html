@@ -77,7 +77,7 @@
                     </ul>
                 </div>
                 <div class="about-image">
-                    <img src="../IMAGENESINTERIORESDELHOTEL/1.webp" alt="Habitación del Hotel">
+                    <img src="imagenes-hoteles/acerca-hotel.jpg" alt="Hotel con piscina y espacios para huéspedes">
                 </div>
             </div>
         </div>
@@ -89,7 +89,7 @@
             <h2 class="section-title">Nuestras Habitaciones</h2>
             <div class="habitaciones-grid">
                 <div class="room-card">
-                    <img src="../IMAGENESINTERIORESDELHOTEL/2.webp" alt="Habitación Simple">
+                    <img src="../VELVETROOMEMILIANOZAPATA/imagendehabitacionespordefecto.jpg" alt="Habitación de Velvet Room Auto Hotel">
                     <div class="room-info">
                         <h3>Habitación Simple</h3>
                         <p class="room-description">Perfecta para viajeros solitarios que buscan confort y practicidad.</p>
@@ -105,7 +105,7 @@
                 </div>
 
                 <div class="room-card">
-                    <img src="../IMAGENESINTERIORESDELHOTEL/3.webp" alt="Habitación Doble">
+                    <img src="../VELVETROOMEMILIANOZAPATA/imagendehabitacionespordefecto.jpg" alt="Habitación de Velvet Room Auto Hotel">
                     <div class="room-info">
                         <h3>Habitación Doble</h3>
                         <p class="room-description">Ideal para parejas y pequeños grupos que desean privacidad y comodidad.</p>
@@ -121,7 +121,7 @@
                 </div>
 
                 <div class="room-card">
-                    <img src="../IMAGENESINTERIORESDELHOTEL/4.webp" alt="Suite">
+                    <img src="../VELVETROOMEMILIANOZAPATA/imagendehabitacionespordefecto.jpg" alt="Habitación de Velvet Room Auto Hotel">
                     <div class="room-info">
                         <h3>Suite Premium</h3>
                         <p class="room-description">Lujo y elegancia para una experiencia inolvidable de hospitalidad.</p>
@@ -145,37 +145,37 @@
             <h2 class="section-title">Galería del Hotel</h2>
             <div class="gallery-grid">
                 <div class="gallery-item">
-                    <img src="../IMAGENESINTERIORESDELHOTEL/5.webp" alt="Galería 1">
+                    <img src="imagenes-hoteles/hotel-galeria-01.jpg" alt="Hotel resort con piscina">
                     <div class="gallery-overlay">
                         <i class="fas fa-search-plus"></i>
                     </div>
                 </div>
                 <div class="gallery-item">
-                    <img src="../IMAGENESINTERIORESDELHOTEL/6.jpg" alt="Galería 2">
+                    <img src="imagenes-hoteles/hotel-galeria-02.jpg" alt="Hotel de lujo al atardecer">
                     <div class="gallery-overlay">
                         <i class="fas fa-search-plus"></i>
                     </div>
                 </div>
                 <div class="gallery-item">
-                    <img src="../IMAGENESINTERIORESDELHOTEL/7.jpg" alt="Galería 3">
+                    <img src="imagenes-hoteles/hotel-galeria-03.jpg" alt="Resort rodeado de vegetación">
                     <div class="gallery-overlay">
                         <i class="fas fa-search-plus"></i>
                     </div>
                 </div>
                 <div class="gallery-item">
-                    <img src="../IMAGENESINTERIORESDELHOTEL/8.jpeg" alt="Galería 4">
+                    <img src="imagenes-hoteles/hotel-galeria-04.jpg" alt="Piscina frente al mar en un resort">
                     <div class="gallery-overlay">
                         <i class="fas fa-search-plus"></i>
                     </div>
                 </div>
                 <div class="gallery-item">
-                    <img src="../IMAGENESINTERIORESDELHOTEL/9.jpeg" alt="Galería 5">
+                    <img src="imagenes-hoteles/hotel-galeria-05.jpg" alt="Habitación elegante de hotel">
                     <div class="gallery-overlay">
                         <i class="fas fa-search-plus"></i>
                     </div>
                 </div>
                 <div class="gallery-item">
-                    <img src="../IMAGENESINTERIORESDELHOTEL/10.jpg" alt="Galería 6">
+                    <img src="imagenes-hoteles/hotel-galeria-06.jpg" alt="Hotel boutique con piscina">
                     <div class="gallery-overlay">
                         <i class="fas fa-search-plus"></i>
                     </div>
@@ -442,6 +442,31 @@
                 }
             }
 
+            function ensureDefaultHotelImages(){
+                const oldHotelImage = src => (src || '').includes('IMAGENESINTERIORESDELHOTEL');
+                const aboutImage = document.querySelector('.about-image img');
+                if(aboutImage && oldHotelImage(aboutImage.getAttribute('src'))){
+                    aboutImage.src = 'imagenes-hoteles/acerca-hotel.jpg';
+                    aboutImage.alt = 'Hotel con piscina y espacios para huéspedes';
+                }
+
+                document.querySelectorAll('.habitaciones-grid .room-card img').forEach(image => {
+                    if(oldHotelImage(image.getAttribute('src'))){
+                        image.src = '../VELVETROOMEMILIANOZAPATA/imagendehabitacionespordefecto.jpg';
+                        image.alt = 'Habitación de Velvet Room Auto Hotel';
+                    }
+                });
+
+                const galleryImages = Array.from(document.querySelectorAll('.gallery-grid .gallery-item img'));
+                galleryImages.forEach((image, index) => {
+                    if(oldHotelImage(image.getAttribute('src'))){
+                        const number = String((index % 6) + 1).padStart(2, '0');
+                        image.src = `imagenes-hoteles/hotel-galeria-${number}.jpg`;
+                        image.alt = 'Fotografía de hotel y sus instalaciones';
+                    }
+                });
+            }
+
             function applyHtml(html){
                 if(!html) return false;
                 const parser = new DOMParser();
@@ -450,6 +475,7 @@
                 document.body.innerHTML = doc.body.innerHTML;
                 document.body.querySelectorAll('script').forEach(script => script.remove());
                 ensureContactDetails();
+                ensureDefaultHotelImages();
                 ensureFacturacionBtn();
                 ensureReservaButtonsInRoomCards();
                 ensureReservaCtaToHabitaciones();
@@ -569,6 +595,7 @@
             }
 
             ensureContactDetails();
+            ensureDefaultHotelImages();
             trySyncFromFirestore();
         </script>
 </body>
