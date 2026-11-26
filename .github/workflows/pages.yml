@@ -24,7 +24,7 @@ jobs:
           mkdir -p _site/VELVETROOMEMILIANOZAPATA
           cp index.html dashboard.html agregarusuario.html styles.css config.js login.js dashboard.js agregarusuario.js edicionusuarios.js utils.js _site/
           cp -R IMAGENESINTERIORESDELHOTEL web _site/
-          cp VELVETROOMEMILIANOZAPATA/logo.jpeg VELVETROOMEMILIANOZAPATA/logoconelnombredelhotel.jpeg VELVETROOMEMILIANOZAPATA/fotodeportadahotelentradabienvenida.jpeg _site/VELVETROOMEMILIANOZAPATA/
+          cp VELVETROOMEMILIANOZAPATA/logo.jpeg VELVETROOMEMILIANOZAPATA/logoconelnombredelhotel.jpeg VELVETROOMEMILIANOZAPATA/fotodeportadahotelentradabienvenida.jpeg VELVETROOMEMILIANOZAPATA/imagendehabitacionespordefecto.jpg _site/VELVETROOMEMILIANOZAPATA/
       - name: Checkout Pages branch
         uses: actions/checkout@v4
         with:
