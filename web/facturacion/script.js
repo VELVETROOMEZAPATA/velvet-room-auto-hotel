@@ -160,7 +160,9 @@ resetBtn.addEventListener('click', () => {
 downloadBtn.addEventListener('click', async () => {
   const invoiceTitle = document.getElementById('invoiceTitle').textContent;
   const invoiceText = [
-    'HOTEL CASA USUMACINTA',
+    'VELVET ROOM AUTO HOTEL',
+    'Tel: 934 260 6287 / 938 125 9083',
+    'Email: hotelvelvetemilianozapataoficial@gmail.com',
     'Factura simulada',
     '========================',
     invoiceTitle,

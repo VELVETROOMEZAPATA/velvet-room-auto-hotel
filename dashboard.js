@@ -3014,7 +3014,7 @@ function getHotelTicketInfo() {
   return {
     nombre: 'Velvet Room Auto Hotel',
     direccion: 'Comprobante de estancia',
-    telefono: '',
+    telefono: '934 260 6287 / 938 125 9083',
     facturaUrl: new URL('web/facturacion/index.html', window.location.href).href,
     leyendaFiscal: 'Ticket sin validez fiscal',
     mensajeFactura: 'Obtenga su factura (CFDI) ingresando a',
