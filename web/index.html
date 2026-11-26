@@ -250,21 +250,21 @@
                         <i class="fas fa-phone"></i>
                         <div>
                             <h3>Teléfono</h3>
-                            <p>Consulta disponibilidad mediante el formulario.</p>
+                            <p><a href="tel:9342606287">934 260 6287</a><br><a href="tel:9381259083">938 125 9083</a></p>
                         </div>
                     </div>
                     <div class="info-item">
                         <i class="fas fa-envelope"></i>
                         <div>
                             <h3>Email</h3>
-                            <p>Escríbenos mediante el formulario de contacto.</p>
+                            <p><a href="mailto:hotelvelvetemilianozapataoficial@gmail.com">hotelvelvetemilianozapataoficial@gmail.com</a></p>
                         </div>
                     </div>
                     <div class="info-item">
                         <i class="fas fa-map-marker-alt"></i>
                         <div>
                             <h3>Ubicación</h3>
-                            <p>Comunícate con recepción para conocer nuestra ubicación.</p>
+                            <p>Encuéntranos en el mapa.</p>
                         </div>
                     </div>
                 </div>
@@ -290,7 +290,7 @@
             <div class="mapa-container">
                 <h3 style="text-align: center; color: white; margin-top: 50px; margin-bottom: 20px;">Ubicación del Hotel</h3>
                 <div class="mapa-wrapper">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d475.0211340238442!2d-91.7839109035436!3d17.736671040495363!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85f3cb00403db339%3A0x47c43a7014bb79d!2sDepartamentos%20Usumacinta!5e0!3m2!1ses-419!2smx!4v1780785600885!5m2!1ses-419!2smx" style="border:0; width: 100%; height: 400px; border-radius: 8px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3800.105451842138!2d-91.791591624827!3d17.739669783208903!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTfCsDQ0JzIyLjgiTiA5McKwNDcnMjAuNSJX!5e0!3m2!1ses!2smx!4v1795651038811!5m2!1ses!2smx" width="600" height="450" style="border:0;width:100%;height:450px;border-radius:8px;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
                 </div>
             </div>
         </div>
@@ -426,6 +426,22 @@
                 });
             }
 
+            function ensureContactDetails(){
+                const contactItems = Array.from(document.querySelectorAll('#contacto .info-item'));
+                const phoneItem = contactItems.find(item => (item.querySelector('h3')?.textContent || '').trim().toLowerCase().includes('teléfono'));
+                const emailItem = contactItems.find(item => (item.querySelector('h3')?.textContent || '').trim().toLowerCase().includes('email'));
+                const phoneText = '<a href="tel:9342606287">934 260 6287</a><br><a href="tel:9381259083">938 125 9083</a>';
+                const emailText = '<a href="mailto:hotelvelvetemilianozapataoficial@gmail.com">hotelvelvetemilianozapataoficial@gmail.com</a>';
+                if(phoneItem?.querySelector('p')) phoneItem.querySelector('p').innerHTML = phoneText;
+                if(emailItem?.querySelector('p')) emailItem.querySelector('p').innerHTML = emailText;
+
+                const map = document.querySelector('.mapa-wrapper iframe');
+                if(map){
+                    map.src = 'https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3800.105451842138!2d-91.791591624827!3d17.739669783208903!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTfCsDQ0JzIyLjgiTiA5McKwNDcnMjAuNSJX!5e0!3m2!1ses!2smx!4v1795651038811!5m2!1ses!2smx';
+                    map.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+                }
+            }
+
             function applyHtml(html){
                 if(!html) return false;
                 const parser = new DOMParser();
@@ -433,6 +449,7 @@
                 document.title = doc.title || document.title;
                 document.body.innerHTML = doc.body.innerHTML;
                 document.body.querySelectorAll('script').forEach(script => script.remove());
+                ensureContactDetails();
                 ensureFacturacionBtn();
                 ensureReservaButtonsInRoomCards();
                 ensureReservaCtaToHabitaciones();
@@ -551,6 +568,7 @@
                 }
             }
 
+            ensureContactDetails();
             trySyncFromFirestore();
         </script>
 </body>
